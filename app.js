@@ -2,9 +2,8 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-// http://localhost:3000
-
 const PORT = 3000;
+// http://localhost:3000
 
 const server = http.createServer((req, res) => {
   console.log('Server request');
@@ -14,6 +13,8 @@ const server = http.createServer((req, res) => {
   let basePath;
 
   const createPath = (page) => path.resolve(__dirname, 'views', `${page}.html`);
+  
+  app.use(express.static(path.join(__dirname, 'style')));
 
   switch (req.url) {
     case '/':
