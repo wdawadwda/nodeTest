@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <%- include('./partials/head.ejs') %>
+<body>
+  <div class="title"><%= title %></div>
+  <%- include('./partials/nav.ejs') %>
+  <div class="post-form">
+    <form action="/add-post" method="post">
+      <div>
+        <label for="author">Автор:</label>
+        <input type="text" id="author" name="author" required>
+      </div>
+      <div>
+        <label for="title">Заголовок:</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+      <div>
+        <label for="text">Текст:</label>
+        <textarea id="text" name="text" rows="4" required></textarea>
+      </div>
+      <div>
+        <button type="submit">Добавить</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

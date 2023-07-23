@@ -2,3 +2,14 @@
   text-align: center;
   font-size: 55px;
 }
+
+form{
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+}
+form div{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
