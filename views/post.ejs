@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <%- include('./partials/head.ejs') %>
+<body>
+  <%- include('./partials/nav.ejs') %>
+  <div class="post">
+    <h2><%= post.title %></h2>
+    <p>Автор: <%= post.author %></p>
+    <p>ID: <%= post.id %></p>
+    <div class="post-content">
+      <%= post.text %>
+    </div>
+    <p>Дата: <%= post.updatedAt.toLocaleDateString() %></p>
+    <button data-post-id="<%= post.id %>">Удалить</button>
+    <button data-edit-post-id="<%= post.id %>">Изменить</button>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const post = document.querySelector('.post');
+      post.addEventListener('click', (event) => {
+        if (event.target.matches('button[data-post-id]')) {
+          const postId = event.target.dataset.postId;
+          console.log('Удалить пост с ID:', postId);
+          fetch(`/posts/${postId}`, {
+            method: 'DELETE'
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Ошибка при удалении поста');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(data.message);
+            window.location.href = '/posts';
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        }
+        else if (event.target.matches('button[data-edit-post-id]')) {
+          const editPostId = event.target.dataset.editPostId;
+          console.log('Редактировать пост с ID:', editPostId);
+          window.location.href = `/edit-post/${editPostId}`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
