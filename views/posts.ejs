@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <%- include('./partials/head.ejs') %>
+<body>
+  <div class="title"><%= title %></div>
+  <%- include('./partials/nav.ejs') %>
+  <div class="post-list">
+    <% if (posts && posts.length > 0) { %>
+      <% posts.forEach(post => { %>
+        <div class="post">
+          <h2><a href="/posts/<%= post.id %>"><%= post.title %></a></h2>
+          <p>Автор: <%= post.author %></p>
+          <p><%= post.text %></p>
+          <p>Дата: <%= post.updatedAt.toLocaleDateString() %></p>
+          <button data-post-id="<%= post._id %>">Удалить</button>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>Нет доступных постов.</p>
+    <% } %>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const postList = document.querySelector('.post-list');
+      postList.addEventListener('click', (event) => {
+        if (event.target.matches('button[data-post-id]')) {
+          const postId = event.target.dataset.postId;
+          console.log('Удалить пост с ID:', postId);
+          fetch(`/posts/${postId}`, {
+            method: 'DELETE'
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Ошибка при удалении поста');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log(data.message);
+            window.location.reload();
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>
